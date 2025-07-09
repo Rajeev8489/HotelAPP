@@ -8,7 +8,6 @@ namespace HotelAPI.Data
     {
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public Guid Id { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Room>().HasData
@@ -16,10 +15,9 @@ namespace HotelAPI.Data
                  new Room()
                  {
                      RoomId = 1,
-                     Name = "Single Room",
+                     Name = "Single",
                      Type = "Deluxe",
-                     TotalRooms = 1,
-                     CreateDate = DateTime.Now,
+                     TotalRooms = 1
                  },
                  new Room()
                  {
@@ -27,33 +25,38 @@ namespace HotelAPI.Data
                      Name = "Double",
                      Type = "Luxury",
                      TotalRooms = 2,
-                     CreateDate = DateTime.Now
                  },
                   new Room()
                   {
                       RoomId = 3,
                       Name = "Triple",
                       Type = "Super Luxury",
-                      TotalRooms = 3,
-                      CreateDate = DateTime.Now
+                      TotalRooms = 3
                   }
                 );
 
             modelBuilder.Entity<Booking>().HasData(
-                new Booking()
-                {
-                    BookingId = 1,
-                    RoomId = 1,
-                    CustomerName = "Rajeev",
-                    Address = "UtharaHalli",
-                    City = "Bangalore",
-                    PhoneNumber = 123456789
-                }
+               new Booking()
+               {
+                   BookingId = 1,
+                   RoomId = 1,
+                   CustomerName = "Rajeev",
+                   Address = "UttaraHalli",
+                   City = "Bangalore",
+                   PhoneNumber = 123456789
+               },
+               new Booking()
+               {
+                   BookingId = 2,
+                   RoomId = 2,
+                   CustomerName = "Suresh",
+                   Address = "Jublee Hills",
+                   City = "Hyderabad",
+                   PhoneNumber = 545856265
+               }
+               );
 
-                );
+
         }
-
-
-
     }
-    }
+}

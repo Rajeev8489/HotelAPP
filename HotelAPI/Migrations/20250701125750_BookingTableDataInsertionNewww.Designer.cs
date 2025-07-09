@@ -4,6 +4,7 @@ using HotelAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250701125750_BookingTableDataInsertionNewww")]
+    partial class BookingTableDataInsertionNewww
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,30 +74,16 @@ namespace HotelAPI.Migrations
                         new
                         {
                             BookingId = 1,
-                            Address = "UtharaHalli",
-                            CheckInDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Address = "UttaraHalli",
+                            CheckInDate = new DateTime(2025, 7, 1, 18, 27, 49, 671, DateTimeKind.Local).AddTicks(1095),
+                            CheckOutDate = new DateTime(2025, 7, 1, 18, 27, 49, 671, DateTimeKind.Local).AddTicks(1101),
                             City = "Bangalore",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 671, DateTimeKind.Local).AddTicks(1101),
                             CustomerName = "Rajeev",
                             PhoneNumber = 123456789,
                             RoomId = 1,
                             TotalPrice = 0.0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            BookingId = 2,
-                            Address = "Jubli Hills",
-                            CheckInDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Hyderabad",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerName = "Suresh",
-                            PhoneNumber = 545856265,
-                            RoomId = 2,
-                            TotalPrice = 0.0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 671, DateTimeKind.Local).AddTicks(1102)
                         });
                 });
 
@@ -131,29 +120,29 @@ namespace HotelAPI.Migrations
                         new
                         {
                             RoomId = 1,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Single",
+                            CreatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 668, DateTimeKind.Local).AddTicks(9046),
+                            Name = "Single Room",
                             TotalRooms = 1,
                             Type = "Deluxe",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 670, DateTimeKind.Local).AddTicks(3176)
                         },
                         new
                         {
                             RoomId = 2,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 670, DateTimeKind.Local).AddTicks(4434),
                             Name = "Double",
                             TotalRooms = 2,
                             Type = "Luxury",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 670, DateTimeKind.Local).AddTicks(4434)
                         },
                         new
                         {
                             RoomId = 3,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 670, DateTimeKind.Local).AddTicks(4437),
                             Name = "Triple",
                             TotalRooms = 3,
                             Type = "Super Luxury",
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2025, 7, 1, 18, 27, 49, 670, DateTimeKind.Local).AddTicks(4437)
                         });
                 });
 #pragma warning restore 612, 618

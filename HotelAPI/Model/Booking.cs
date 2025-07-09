@@ -13,11 +13,11 @@ namespace HotelAPI.Model
         public required string City { get; set; }
         public int PhoneNumber { get; set; }
         public double TotalPrice { get; set; }
-        public DateTime CheckInDate { get; set; } 
+        public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
-        public DateTime CreatedDate { get; set; } 
+        public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
-
+        
 
     }
 }

@@ -7,31 +7,31 @@ namespace HotelAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoomController : ControllerBase
+    public class BookingController : ControllerBase
     {
         private readonly AppDbContext _db;
 
-        public RoomController(AppDbContext db)
+        public BookingController(AppDbContext db)
         {
             _db = db;
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<RoomDTO>> GetRooms()
+        public ActionResult<IEnumerable<BookingDTO>> GetBookings()
         {
-            return Ok(_db.Rooms.ToList());
+            return Ok(_db.Bookings.ToList());
         }
-        [HttpGet("{id:int}")]
+        [HttpGet("name")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<RoomDTO>> GetRoomById(int id)
+        public ActionResult<IEnumerable<BookingDTO>> GetBookingByName(String name)
         {
-            var Room = _db.Rooms.FirstOrDefault(u => u.RoomId == id);
-            return Ok(Room);
+            var Booking = _db.Bookings.FirstOrDefault(a => a.CustomerName == name);
+            return Ok(Booking);
         }
-
     }
+
 }
