@@ -8,6 +8,8 @@ namespace HotelAPI.Data
     {
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<UserDetails> Users { get; set; }
+        public DbSet<RegistrationForm> RegistrationForms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Room>().HasData
