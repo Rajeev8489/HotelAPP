@@ -19,18 +19,18 @@ namespace HotelAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<RoomDTO>> GetRooms()
+        public async Task<ActionResult<IEnumerable<RoomDTO>>> GetRooms()
         {
-            return Ok(_db.Rooms.ToList());
+            return Ok(await _db.Rooms.ToListAsync());
         }
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<RoomDTO>> GetRoomById(int id)
+        public async Task<ActionResult<IEnumerable<RoomDTO>>> GetRoomById(int id)
         {
-            var Room = _db.Rooms.FirstOrDefault(u => u.RoomId == id);
+            var Room = await _db.Rooms.FirstOrDefaultAsync(u => u.RoomId == id);
             return Ok(Room);
         }
         [HttpPost]
@@ -65,7 +65,7 @@ namespace HotelAPI.Controllers
             return CreatedAtAction(nameof(GetRooms), new { id = model.RoomId }, roomDTO);
         }
         [HttpPut("{id:int}", Name = "UpdateRoom")]
-        public IActionResult UpdateRoom(int id, [FromBody] RoomDTO roomDTO)
+        public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDTO roomDTO)
         {
             if (roomDTO == null || id != roomDTO.RoomId)
             {
@@ -80,35 +80,39 @@ namespace HotelAPI.Controllers
             };
 
             _db.Rooms.Update(model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpDelete("{id:int}", Name = "DeleteRoom")]
-        public IActionResult DeleteRoom(int id)
+        public async Task<IActionResult> DeleteRoom(int id)
         {
             if (id == 0)
             {
                 return BadRequest(400);
             }
-            var Room = _db.Rooms.FirstOrDefault(c => c.RoomId == id);
+            var Room = await _db.Rooms.FirstOrDefaultAsync(c => c.RoomId == id);
             if (Room == null)
             {
                 return NotFound(404);
             }
             _db.Rooms.Remove(Room);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent();
         }
         [HttpPatch("{id:int}", Name = "UpdatePartialRoom")]
-        public IActionResult UpdatePartialRoom(int id, JsonPatchDocument<RoomDTO> PatchRoomDTO)
+        public async Task<IActionResult> UpdatePartialRoom(int id, JsonPatchDocument<RoomDTO> PatchRoomDTO)
         {
             if (PatchRoomDTO == null || id == 0)
             {
                 return BadRequest(400);
             }
-            var room = _db.Rooms.AsNoTracking().FirstOrDefault(d => d.RoomId == id);
-            _db.SaveChanges();
+            var room = await _db.Rooms.AsNoTracking().FirstOrDefaultAsync(d => d.RoomId == id);
+            if (room == null)
+            {
+                return BadRequest(400);
+            }
+            await _db.SaveChangesAsync();
             RoomDTO roomDTO = new()
             {
                 RoomId = room.RoomId,
@@ -116,10 +120,6 @@ namespace HotelAPI.Controllers
                 Type = room.Type,
                 TotalRooms = room.TotalRooms
             };
-            if (room == null)
-            {
-                return BadRequest(400);
-            }
             PatchRoomDTO.ApplyTo(roomDTO);
             Room Model = new Room()
             {
@@ -129,7 +129,7 @@ namespace HotelAPI.Controllers
                 TotalRooms = roomDTO.TotalRooms
             };
             _db.Rooms.Update(Model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return Ok();
         }
 

@@ -21,9 +21,9 @@ namespace HotelAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<BookingDTO>> GetBookings()
+        public async Task<ActionResult<IEnumerable<BookingDTO>>> GetBookings()
         {
-            IEnumerable<Booking> bookinglist = _db.Bookings.ToList();
+            IEnumerable<Booking> bookinglist = await _db.Bookings.ToListAsync();
             return Ok(_mapper.Map<List<BookingDTO>>(bookinglist));
         }
         [HttpGet("name")]
@@ -31,15 +31,15 @@ namespace HotelAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<BookingDTO>> GetBookingByName(String name)
+        public async Task<ActionResult<IEnumerable<BookingDTO>>> GetBookingByName(String name)
         {
-            var Booking = _db.Bookings.FirstOrDefault(a => a.CustomerName == name);
+            var Booking = await _db.Bookings.FirstOrDefaultAsync(a => a.CustomerName == name);
             return Ok(Booking);
         }
         [HttpPost]
-        public ActionResult<BookingDTO> CreateBookings([FromBody] BookingDTO bookingDTO)
+        public async Task<ActionResult<BookingDTO>> CreateBookings([FromBody] BookingDTO bookingDTO)
         {
-            if (_db.Bookings.FirstOrDefault(b => b.CustomerName.ToLower() == bookingDTO.CustomerName.ToLower()) != null)
+            if (await _db.Bookings.FirstOrDefaultAsync(b => b.CustomerName.ToLower() == bookingDTO.CustomerName.ToLower()) != null)
             {
                 return BadRequest(400);
             }
@@ -60,12 +60,12 @@ namespace HotelAPI.Controllers
                 PhoneNumber = bookingDTO.PhoneNumber,
                 TotalPrice = bookingDTO.TotalPrice
             };
-            _db.Bookings.Add(Model);
-            _db.SaveChanges();
+            await _db.Bookings.AddAsync(Model);
+            await _db.SaveChangesAsync();
             return Ok(Model);
         }
         [HttpPut("{id:int}", Name = "UpdateBooking")]
-        public IActionResult UpdateBooking(int id, [FromBody] BookingDTO bookingDTO)
+        public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingDTO bookingDTO)
         {
             if (bookingDTO == null || id != bookingDTO.BookingId)
             {
@@ -83,34 +83,38 @@ namespace HotelAPI.Controllers
             //    TotalPrice = bookingDTO.TotalPrice
             //};
             _db.Bookings.Update(model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent();
         }
         [HttpDelete("{id:int}", Name = "DeleteBooking")]
-        public IActionResult DeleteBooking(int id)
+        public async Task<IActionResult> DeleteBooking(int id)
         {
             if (id == 0)
             {
                 return BadRequest(400);
             }
-            var Booking = _db.Bookings.FirstOrDefault(c => c.BookingId == id);
+            var Booking = await _db.Bookings.FirstOrDefaultAsync(c => c.BookingId == id);
             if (Booking == null)
             {
                 return NotFound(404);
             }
             _db.Bookings.Remove(Booking);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent();
         }
         [HttpPatch("{id:int}", Name = "UpdatePartialBooking")]
-        public IActionResult UpdatePartialBooking(int id, JsonPatchDocument<BookingDTO> PatchBookingDTO)
+        public async Task<IActionResult> UpdatePartialBooking(int id, JsonPatchDocument<BookingDTO> PatchBookingDTO)
         {
             if (PatchBookingDTO == null || id == 0)
             {
                 return BadRequest(400);
             }
-            var booking = _db.Bookings.AsNoTracking().FirstOrDefault(d => d.BookingId == id);
-            _db.SaveChanges();
+            var booking = await _db.Bookings.AsNoTracking().FirstOrDefaultAsync(d => d.BookingId == id);
+            if (booking == null)
+            {
+                return BadRequest(400);
+            }
+            await _db.SaveChangesAsync();
             BookingDTO bookingDTO = new()
             {
                 BookingId = booking.BookingId,
@@ -121,10 +125,6 @@ namespace HotelAPI.Controllers
                 PhoneNumber = booking.PhoneNumber,
                 TotalPrice = booking.TotalPrice
             };
-            if (booking == null)
-            {
-                return BadRequest(400);
-            }
             PatchBookingDTO.ApplyTo(bookingDTO);
             Booking Model = new Booking()
             {
@@ -137,7 +137,7 @@ namespace HotelAPI.Controllers
                 TotalPrice = bookingDTO.TotalPrice
             };
             _db.Bookings.Update(Model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return Ok();
         }
     }
