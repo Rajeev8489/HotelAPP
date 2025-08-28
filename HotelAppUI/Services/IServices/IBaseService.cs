@@ -1,11 +1,11 @@
-﻿using HotelAppUI.Models;
-using HotelAppUI.Model;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+﻿using HotelAppUI.Model;
+using HotelAppUI.Models;
+
 namespace HotelAppUI.Services.IServices
 {
     public interface IBaseService
     {
         APIResponse responseModel { get; set; }
-        Task<T> SendAsync <T>(APIRequest apiRequest);
+        Task<T> SendAsync<T>(APIRequest apiRequest);
     }
 }
