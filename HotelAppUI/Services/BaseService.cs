@@ -3,11 +3,13 @@ using HotelAppUI.Model;
 using HotelAppUI.Models;
 using HotelAppUI.Services.IServices;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace HotelAppUI.Services
 {
     public class BaseService : IBaseService
     {
+        public APIResponse responseModel {get;set;}
 
         private readonly IHttpClientFactory _httpClientFactory;
         public BaseService(IHttpClientFactory httpClientFactory)
@@ -37,10 +39,13 @@ namespace HotelAppUI.Services
                         message.Method = HttpMethod.Get;
                         break;
                 }
-                HttpResponseMessage apiRespose = null;
-                var apiContent = await apiRespose.Content.ReadAsStreamAsync();
-                var APIRespose = JsonConverter.DeserializeObject<T>(apiContent);
-                return (APIRespose == null) ? null : APIRespose;
+                //HttpResponseMessage apiRespose = await client.SendAsync(message);
+                //var apiContent = await apiRespose.Content.ReadAsStringAsync();
+                //var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
+                HttpResponseMessage apiResponse = await client.SendAsync(message);
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
+                return APIResponse;
             }
             catch (Exception ex)
             {
@@ -48,9 +53,9 @@ namespace HotelAppUI.Services
                 {
                     ErrorMessage = new List<string> { Convert.ToString(ex.Message) },
                 };
-                var res = JsonConverter.SerializeObject(dto);
-                var APIResponse = JsonConverter.DeserializeObject<T>(res);
-                return (APIResponse == null) ? null : APIResponse;
+                var res = JsonConvert.SerializeObject(dto);
+                var APIResponse = JsonConvert.DeserializeObject<T>(res);
+                return APIResponse;
             }
         }
     }

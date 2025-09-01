@@ -1,4 +1,5 @@
-﻿using HotelAppUI.Models;
+﻿using HotelApp_Utility;
+using HotelAppUI.Models;
 using HotelAppUI.Services.IServices;
 
 namespace HotelAppUI.Services
@@ -6,15 +7,19 @@ namespace HotelAppUI.Services
     public class BookingService : BaseService, IBookingService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private string bookingUrl;
-        public BookingService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        private readonly string bookingUrl;
+        public BookingService(IHttpClientFactory httpClientFactory, IConfiguration configuration) : base(httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            this.bookingUrl = bookingUrl;
+            bookingUrl = configuration.GetValue<string>("ServiceUrl:HotelApi");
         }
         public Task<T> GetAllBookingAsync<T>()
         {
-            throw new NotImplementedException();
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Url = bookingUrl + "/api/BookingAPI"
+            });
         }
         public Task<T> GetAsync<T>(int id)
         {
@@ -24,13 +29,13 @@ namespace HotelAppUI.Services
         {
             throw new NotImplementedException();
         }
-        public Task<T> UpdateAsync<T>(BookingDTO dTO) 
-        { 
+        public Task<T> UpdateAsync<T>(BookingDTO dTO)
+        {
             throw new NotImplementedException();
         }
         public Task<T> DeleteAsync<T>(int id)
-        { 
-         throw new NotImplementedException();
+        {
+            throw new NotImplementedException();
         }
     }
 }
