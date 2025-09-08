@@ -21,7 +21,7 @@ namespace HotelAppUI.Controllers
         {
             List<BookingDTO> list = new();
             var response = await _bookingService.GetAllBookingAsync<List<BookingDTO>>();
-            if (response == null)
+            if (response != null)
             {
                 list = response;
             }
@@ -31,6 +31,25 @@ namespace HotelAppUI.Controllers
             //    list = JsonConvert.DeserializeObject<List<BookingDTO>>(Convert.ToString(response.Result));
             //}
             return View(list);
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(BookingDTO bookingDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var bookingDto = _mapper.Map<BookingDTO>(bookingDTO);
+                var response = await _bookingService.CreateAsync<BookingDTO>(bookingDto);
+                if (response != null)
+                {
+                    return RedirectToAction(nameof(IndexBooking));
+                }
+            }
+            return View(bookingDTO);
         }
     }
 }

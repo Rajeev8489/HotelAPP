@@ -27,7 +27,12 @@ namespace HotelAppUI.Services
         }
         public Task<T> CreateAsync<T>(BookingDTO dto)
         {
-            throw new NotImplementedException();
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.POST,
+                Data = dto,
+                Url = bookingUrl + "/api/BookingAPI"
+            });
         }
         public Task<T> UpdateAsync<T>(BookingDTO dTO)
         {

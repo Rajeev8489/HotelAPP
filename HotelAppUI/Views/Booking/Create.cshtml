@@ -1,0 +1,36 @@
+﻿@model HotelAppUI.Models.BookingDTO
+@{
+	ViewData["Title"] = "Create Booking";
+}
+<h1>@ViewData["Title"]</h1>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="RoomId"></label>
+        <input asp-for="RoomId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CustomerName"></label>
+        <input asp-for="CustomerName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TotalPrice"></label>
+        <input asp-for="TotalPrice" class="form-control" />
+    </div>
+    <br />
+    <div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="IndexBooking" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
