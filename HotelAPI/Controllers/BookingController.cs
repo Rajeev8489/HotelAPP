@@ -27,6 +27,18 @@ namespace HotelAPI.Controllers
             IEnumerable<Booking> bookinglist = await _db.Bookings.ToListAsync();
             return Ok(_mapper.Map<List<BookingDTO>>(bookinglist));
         }
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BookingDTO>> GetBooking(int id)
+        {
+            var booking = await _db.Bookings.FirstOrDefaultAsync(b => b.BookingId == id);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<BookingDTO>(booking));
+        }
         [HttpGet("name")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
