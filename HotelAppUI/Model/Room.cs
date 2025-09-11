@@ -12,7 +12,7 @@ namespace HotelAppUI.Model
         public required string Name { get; set; }
         public required string Type { get; set; }
         public int TotalRooms { get; set; }
-        public DateTime CreatedDate { get; set; } 
-        public DateTime UpdatedDate { get; set; } 
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

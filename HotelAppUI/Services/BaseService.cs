@@ -25,13 +25,13 @@ namespace HotelAppUI.Services
             {
                 using var client = _httpClientFactory.CreateClient();
                 using var message = CreateHttpRequestMessage(request);
-                
+
                 var response = await client.SendAsync(message);
                 var content = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning("API request failed with status {StatusCode}: {Content}", 
+                    _logger.LogWarning("API request failed with status {StatusCode}: {Content}",
                         response.StatusCode, content);
                     return HandleErrorResponse<T>(response.StatusCode, content);
                 }
@@ -61,7 +61,7 @@ namespace HotelAppUI.Services
             {
                 RequestUri = new Uri(request.Url)
             };
-            
+
             message.Headers.Add("Accept", "application/json");
 
             switch (request.ApiType)

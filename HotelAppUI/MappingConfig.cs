@@ -5,7 +5,7 @@ namespace HotelAppUI
 {
     public class MappingConfig : Profile
     {
-        public MappingConfig() 
+        public MappingConfig()
         {
             CreateMap<Booking, BookingDTO>();
             CreateMap<BookingDTO, Booking>();

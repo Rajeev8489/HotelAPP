@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HotelAPI.Model
 {
@@ -17,7 +16,7 @@ namespace HotelAPI.Model
         public DateTime CheckOutDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
-        
+
 
     }
 }

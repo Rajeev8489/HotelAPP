@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using HotelAPI.Model;
+﻿using HotelAPI.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelAPI.Data
 {

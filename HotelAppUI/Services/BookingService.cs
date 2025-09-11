@@ -8,7 +8,7 @@ namespace HotelAppUI.Services
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly string bookingUrl;
-        public BookingService(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<BaseService> logger) 
+        public BookingService(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<BaseService> logger)
             : base(httpClientFactory, logger)
         {
             _httpClientFactory = httpClientFactory;

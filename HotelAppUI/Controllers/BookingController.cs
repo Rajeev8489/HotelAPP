@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using HotelAppUI.Model;
+﻿using AutoMapper;
 using HotelAppUI.Models;
 using HotelAppUI.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HotelAppUI.Controllers
 {
@@ -57,7 +56,7 @@ namespace HotelAppUI.Controllers
                     TempData["SuccessMessage"] = "Booking created successfully.";
                     return RedirectToAction(nameof(IndexBooking));
                 }
-                
+
                 TempData["ErrorMessage"] = "Failed to create booking.";
                 return View(bookingDTO);
             }
