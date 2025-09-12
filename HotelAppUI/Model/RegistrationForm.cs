@@ -29,7 +29,7 @@ namespace HotelAppUI.Model
 
         [Required]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+        [Compare("Password", ErrorMessage = "Password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

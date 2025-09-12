@@ -38,7 +38,7 @@ namespace HotelAppUI.Controllers
                     TempData["SuccessMessage"] = "Login successful";
                     return RedirectToAction("Index", "Home");
                 }
-                TempData["ErrorMessage"] = response?.message ?? "Login failed";
+                TempData["ErrorMessage"] = "Invalid password";
                 return View(request);
             }
             catch (Exception ex)
@@ -88,7 +88,7 @@ namespace HotelAppUI.Controllers
         public IActionResult Logout()
         {
             TempData["SuccessMessage"] = "Logged out";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Auth");
         }
     }
 }

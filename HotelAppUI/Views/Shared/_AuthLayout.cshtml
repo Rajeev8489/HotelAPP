@@ -1,0 +1,28 @@
+@{
+    Layout = null;
+    var title = ViewData["Title"] as string ?? "HotelAppUI";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title - HotelAppUI</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh;">
+        <h1 class="mb-4">HotelAppUI</h1>
+        <main role="main" class="w-100" style="max-width: 480px;">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+
