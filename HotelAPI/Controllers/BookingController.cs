@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelAPI.Data;
 using HotelAPI.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace HotelAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<BookingDTO>>> GetBookings()
@@ -28,6 +30,7 @@ namespace HotelAPI.Controllers
             return Ok(_mapper.Map<List<BookingDTO>>(bookinglist));
         }
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BookingDTO>> GetBooking(int id)
@@ -40,6 +43,7 @@ namespace HotelAPI.Controllers
             return Ok(_mapper.Map<BookingDTO>(booking));
         }
         [HttpGet("name")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,6 +54,7 @@ namespace HotelAPI.Controllers
             return Ok(Booking);
         }
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<BookingDTO>> CreateBookings([FromBody] BookingDTO bookingDTO)
         {
             if (await _db.Bookings.FirstOrDefaultAsync(b => b.CustomerName.ToLower() == bookingDTO.CustomerName.ToLower()) != null)
@@ -78,6 +83,7 @@ namespace HotelAPI.Controllers
             return Ok(Model);
         }
         [HttpPut("{id:int}", Name = "UpdateBooking")]
+        [Authorize]
         public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingDTO bookingDTO)
         {
             if (bookingDTO == null || id != bookingDTO.BookingId)
@@ -100,6 +106,7 @@ namespace HotelAPI.Controllers
             return NoContent();
         }
         [HttpDelete("{id:int}", Name = "DeleteBooking")]
+        [Authorize]
         public async Task<IActionResult> DeleteBooking(int id)
         {
             if (id == 0)
@@ -116,6 +123,7 @@ namespace HotelAPI.Controllers
             return NoContent();
         }
         [HttpPatch("{id:int}", Name = "UpdatePartialBooking")]
+        [Authorize]
         public async Task<IActionResult> UpdatePartialBooking(int id, JsonPatchDocument<BookingDTO> PatchBookingDTO)
         {
             if (PatchBookingDTO == null || id == 0)

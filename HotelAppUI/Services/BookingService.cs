@@ -1,6 +1,7 @@
 ﻿using HotelApp_Utility;
 using HotelAppUI.Models;
 using HotelAppUI.Services.IServices;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelAppUI.Services
 {
@@ -8,8 +9,8 @@ namespace HotelAppUI.Services
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly string bookingUrl;
-        public BookingService(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<BaseService> logger)
-            : base(httpClientFactory, logger)
+        public BookingService(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<BaseService> logger, IHttpContextAccessor httpContextAccessor)
+            : base(httpClientFactory, logger, httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
             bookingUrl = configuration.GetValue<string>("ServiceUrl:HotelApi");

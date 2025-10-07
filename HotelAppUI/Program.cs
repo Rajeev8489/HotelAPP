@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
 builder.Services.AddHttpClient<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
@@ -28,6 +30,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -4,6 +4,7 @@ using HotelAppUI.Models;
 using HotelAppUI.Services.IServices;
 using Newtonsoft.Json;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelAppUI.Services
 {
@@ -12,11 +13,13 @@ namespace HotelAppUI.Services
         public APIResponse responseModel { get; set; }
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<BaseService> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BaseService(IHttpClientFactory httpClientFactory, ILogger<BaseService> logger)
+        public BaseService(IHttpClientFactory httpClientFactory, ILogger<BaseService> logger, IHttpContextAccessor httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<T> SendAsync<T>(APIRequest request)
@@ -84,6 +87,12 @@ namespace HotelAppUI.Services
             {
                 var jsonPayload = JsonConvert.SerializeObject(request.Data);
                 message.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+            }
+
+            var token = request.Token ?? _httpContextAccessor.HttpContext?.Session?.GetString("jwtToken");
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
             return message;

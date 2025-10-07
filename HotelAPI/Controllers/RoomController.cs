@@ -1,5 +1,6 @@
 ﻿using HotelAPI.Data;
 using HotelAPI.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace HotelAPI.Controllers
             _db = db;
         }
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<RoomDTO>>> GetRooms()
@@ -24,6 +26,7 @@ namespace HotelAPI.Controllers
             return Ok(await _db.Rooms.ToListAsync());
         }
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -34,6 +37,7 @@ namespace HotelAPI.Controllers
             return Ok(Room);
         }
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<RoomDTO>> CreateRooms([FromBody] RoomDTO roomDTO)
         {
             if (roomDTO == null)
@@ -65,6 +69,7 @@ namespace HotelAPI.Controllers
             return CreatedAtAction(nameof(GetRooms), new { id = model.RoomId }, roomDTO);
         }
         [HttpPut("{id:int}", Name = "UpdateRoom")]
+        [Authorize]
         public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDTO roomDTO)
         {
             if (roomDTO == null || id != roomDTO.RoomId)
@@ -85,6 +90,7 @@ namespace HotelAPI.Controllers
         }
 
         [HttpDelete("{id:int}", Name = "DeleteRoom")]
+        [Authorize]
         public async Task<IActionResult> DeleteRoom(int id)
         {
             if (id == 0)
@@ -101,6 +107,7 @@ namespace HotelAPI.Controllers
             return NoContent();
         }
         [HttpPatch("{id:int}", Name = "UpdatePartialRoom")]
+        [Authorize]
         public async Task<IActionResult> UpdatePartialRoom(int id, JsonPatchDocument<RoomDTO> PatchRoomDTO)
         {
             if (PatchRoomDTO == null || id == 0)

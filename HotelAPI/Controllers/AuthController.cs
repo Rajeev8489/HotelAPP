@@ -1,5 +1,6 @@
 using HotelAPI.Data;
 using HotelAPI.Model;
+using HotelAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ namespace HotelAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _db;
+        private readonly IJwtService _jwtService;
 
-        public AuthController(AppDbContext db)
+        public AuthController(AppDbContext db, IJwtService jwtService)
         {
             _db = db;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -63,7 +66,8 @@ namespace HotelAPI.Controllers
                 return Unauthorized(new { isSuccess = false, message = "Invalid username or password" });
             }
 
-            return Ok(new { isSuccess = true, message = "Login successful", userId = user.UserId, userName = user.UserName });
+            var token = _jwtService.GenerateToken(user);
+            return Ok(new { isSuccess = true, message = "Login successful", token, userId = user.UserId, userName = user.UserName });
         }
     }
 }
