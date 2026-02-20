@@ -129,9 +129,13 @@ Run the application
 
 <img width="1879" height="863" alt="Screenshot 2026-02-20 124004" src="https://github.com/user-attachments/assets/71ad7915-51ad-4772-8033-5f9099d28a0d" />
 
+
 <img width="1877" height="837" alt="Screenshot 2026-02-20 124040" src="https://github.com/user-attachments/assets/6660afd3-1d42-407c-ad9b-7450a9842aaf" />
 
+
 <img width="1795" height="849" alt="Screenshot 2026-02-20 124057" src="https://github.com/user-attachments/assets/8ffcece7-8124-468b-8e9e-a54929b51d09" />
+
+
 
 📈 Future Improvements
 
