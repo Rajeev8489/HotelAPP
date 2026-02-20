@@ -1,0 +1,195 @@
+@model HotelAppUI.Models.BookingDTO
+@{
+    ViewData["Title"] = "Hotel Details";
+    Layout = "~/Views/Shared/_MobileLayout.cshtml";
+}
+
+<!-- Image Gallery -->
+<div class="hotel-gallery" style="position: relative; height: 300px; overflow: hidden;">
+    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+        <i class="fas fa-hotel"></i>
+    </div>
+    <div style="position: absolute; top: var(--spacing-4); left: var(--spacing-4);">
+        <a href="javascript:history.back()" class="btn btn-ghost" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+    <div style="position: absolute; top: var(--spacing-4); right: var(--spacing-4);">
+        <button class="btn btn-ghost" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);">
+            <i class="fas fa-heart"></i>
+        </button>
+    </div>
+    <div style="position: absolute; bottom: var(--spacing-4); left: 50%; transform: translateX(-50%); display: flex; gap: var(--spacing-2);">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.8);"></span>
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4);"></span>
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4);"></span>
+    </div>
+</div>
+
+<!-- Hotel Info -->
+<div class="mobile-container mt-4">
+    <!-- Title & Location -->
+    <div class="mb-4">
+        <h1 style="font-size: var(--font-size-2xl); margin-bottom: var(--spacing-2);">
+            Room @Model.RoomId - @Model.City
+        </h1>
+        <p style="color: var(--text-secondary); margin-bottom: var(--spacing-4);">
+            <i class="fas fa-map-marker-alt me-2"></i>@Model.Address, @Model.City
+        </p>
+        
+        <!-- Rating & Trust -->
+        <div class="flex-between mb-4">
+            <div class="rating">
+                <div class="rating-stars" style="font-size: var(--font-size-lg);">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div style="margin-left: var(--spacing-2);">
+                    <div class="rating-value">4.5</div>
+                    <div class="rating-count">128 verified reviews</div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-2); align-items: flex-end;">
+                <span class="badge-premium">
+                    <i class="fas fa-crown me-1"></i>Premium
+                </span>
+                <span class="badge-verified">
+                    <i class="fas fa-check-circle me-1"></i>Verified
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Key Features -->
+    <div class="card mb-6">
+        <div class="card-body">
+            <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-4);">Key Features</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-4);">
+                <div class="flex gap-2">
+                    <i class="fas fa-wifi" style="color: var(--color-primary); font-size: var(--font-size-lg);"></i>
+                    <span>Free WiFi</span>
+                </div>
+                <div class="flex gap-2">
+                    <i class="fas fa-parking" style="color: var(--color-primary); font-size: var(--font-size-lg);"></i>
+                    <span>Free Parking</span>
+                </div>
+                <div class="flex gap-2">
+                    <i class="fas fa-swimming-pool" style="color: var(--color-primary); font-size: var(--font-size-lg);"></i>
+                    <span>Swimming Pool</span>
+                </div>
+                <div class="flex gap-2">
+                    <i class="fas fa-utensils" style="color: var(--color-primary); font-size: var(--font-size-lg);"></i>
+                    <span>Restaurant</span>
+                </div>
+                <div class="flex gap-2">
+                    <i class="fas fa-dumbbell" style="color: var(--color-primary); font-size: var(--font-size-lg);"></i>
+                    <span>Fitness Center</span>
+                </div>
+                <div class="flex gap-2">
+                    <i class="fas fa-concierge-bell" style="color: var(--color-primary); font-size: var(--font-size-lg);"></i>
+                    <span>24/7 Service</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Description -->
+    <div class="mb-6">
+        <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-4);">About This Room</h3>
+        <p style="color: var(--text-secondary); line-height: var(--line-height-relaxed);">
+            Experience luxury and comfort in our premium room located in the heart of @Model.City. 
+            This beautifully appointed room features modern amenities, comfortable furnishings, and 
+            stunning views. Perfect for both business and leisure travelers.
+        </p>
+    </div>
+    
+    <!-- Amenities -->
+    <div class="card mb-6">
+        <div class="card-body">
+            <h3 style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-4);">Amenities</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-3);">
+                <div><i class="fas fa-check-circle me-2" style="color: var(--color-success);"></i>Air Conditioning</div>
+                <div><i class="fas fa-check-circle me-2" style="color: var(--color-success);"></i>TV</div>
+                <div><i class="fas fa-check-circle me-2" style="color: var(--color-success);"></i>Mini Bar</div>
+                <div><i class="fas fa-check-circle me-2" style="color: var(--color-success);"></i>Safe</div>
+                <div><i class="fas fa-check-circle me-2" style="color: var(--color-success);"></i>Room Service</div>
+                <div><i class="fas fa-check-circle me-2" style="color: var(--color-success);"></i>Balcony</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Reviews Preview -->
+    <div class="mb-6">
+        <div class="flex-between mb-4">
+            <h3 style="font-size: var(--font-size-lg); margin: 0;">Reviews</h3>
+            <a href="#" style="color: var(--color-primary); font-weight: var(--font-weight-semibold);">
+                View All <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="flex gap-4 mb-4">
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <strong>John D.</strong>
+                    <span style="color: var(--text-tertiary); font-size: var(--font-size-sm);">2 days ago</span>
+                </div>
+                <p style="color: var(--text-secondary); margin: 0;">
+                    "Excellent stay! The room was clean, comfortable, and the staff was very helpful. 
+                    Highly recommend!"
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sticky Booking Bar -->
+<div style="position: fixed; bottom: var(--bottom-nav-height); left: 0; right: 0; background: var(--bg-primary); border-top: 1px solid var(--bg-tertiary); box-shadow: 0 -2px 8px rgba(0,0,0,0.08); padding: var(--spacing-4); z-index: var(--z-fixed);">
+    <div class="mobile-container">
+        <div class="flex-between">
+            <div>
+                <div class="price-current" style="font-size: var(--font-size-2xl);">@Model.TotalPrice.ToString("C")</div>
+                <div class="price-period">per night</div>
+            </div>
+            <a asp-action="EditBooking" asp-route-id="@Model.BookingId" class="btn btn-accent btn-lg">
+                <i class="fas fa-calendar-check me-2"></i>Book Now
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-items">
+        <a href="#" class="bottom-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </a>
+        <a asp-controller="Booking" asp-action="IndexBooking" class="bottom-nav-item active">
+            <i class="fas fa-calendar-check"></i>
+            <span>Bookings</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </div>
+</nav>
+
+<style>
+body {
+    padding-bottom: calc(var(--bottom-nav-height) + 100px);
+}
+</style>

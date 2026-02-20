@@ -1,0 +1,10 @@
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+{
+    var isSuccess = TempData["SuccessMessage"] != null;
+    var message = (isSuccess ? TempData["SuccessMessage"] : TempData["ErrorMessage"])?.ToString();
+    var type = isSuccess ? "success" : "danger";
+    var icon = isSuccess ? "fa-check-circle" : "fa-exclamation-circle";
+    <div class="app-toast app-toast-@type" role="alert" data-auto-dismiss="true">
+        <i class="fas @icon me-2"></i><span>@message</span>
+    </div>
+}

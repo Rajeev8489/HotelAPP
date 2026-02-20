@@ -4,39 +4,58 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <h2 class="h4 mb-3">Login</h2>
+<div class="card shadow-lg">
+    <div class="card-body p-5">
+        <div class="text-center mb-4">
+            <h2 class="h3 mb-2">Welcome Back</h2>
+            <p class="text-muted">Sign in to your account to continue</p>
+        </div>
         
         @if (TempData["ErrorMessage"] != null)
         {
             <div class="alert alert-danger" role="alert">
-                @TempData["ErrorMessage"]
+                <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
             </div>
         }
         
         @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success" role="alert">
-                @TempData["SuccessMessage"]
+                <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
             </div>
         }
         
         <form asp-action="Login" method="post">
-            <div class="mb-3">
-                <label asp-for="UserName" class="form-label"></label>
-                <input asp-for="UserName" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="UserName" class="form-label">
+                    <i class="fas fa-user me-1"></i>Username
+                </label>
+                <input asp-for="UserName" class="form-control" placeholder="Enter your username" autocomplete="username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
+            
+            <div class="form-group mb-4">
+                <label asp-for="Password" class="form-label">
+                    <i class="fas fa-lock me-1"></i>Password
+                </label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" autocomplete="current-password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-            <div class="text-center mt-3">
-                <a asp-action="Register">Create an account</a>
+            
+            <button type="submit" class="btn btn-accent w-100 mb-3">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </button>
+            
+            <div class="text-center">
+                <p class="mb-0 text-muted">
+                    Don't have an account? 
+                    <a asp-action="Register" class="fw-semibold">Create one here</a>
+                </p>
             </div>
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,34 +1,44 @@
 @model HotelAppUI.Models.BookingDTO
 @{
-	ViewData["Title"] = "Edit Booking";
+    ViewData["Title"] = "Edit Booking";
 }
 
-<div class="row">
-	<div class="col-md-8">
-		<div class="card">
-			<div class="card-header">
-				<h1 class="card-title mb-0">@ViewData["Title"]</h1>
-			</div>
-			<div class="card-body">
-				<form asp-controller="Booking" asp-action="EditBooking" method="post">
-					@Html.AntiForgeryToken()
-					<input type="hidden" asp-for="BookingId" />
-					@await Html.PartialAsync("_BookingForm", Model)
-					
-					<div class="d-flex gap-2 mt-4">
-						<button type="submit" class="btn btn-primary">
-							<i class="fas fa-edit me-2"></i> Update
-						</button>
-						<a asp-action="IndexBooking" class="btn btn-secondary">
-							<i class="fas fa-times me-2"></i> Cancel
-						</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-elevated">
+            <div class="card-header">
+                <h2 class="card-title mb-0" style="color: var(--color-secondary);">
+                    <i class="fas fa-edit me-2" style="color: var(--color-accent);"></i>@ViewData["Title"]
+                </h2>
+            </div>
+            <div class="card-body">
+                <form asp-controller="Booking" asp-action="EditBooking" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="BookingId" />
+                    @await Html.PartialAsync("_BookingForm", Model)
+                    
+                    <div class="action-buttons">
+                        <button type="submit" class="btn btn-accent">
+                            <i class="fas fa-save me-2"></i>Update Booking
+                        </button>
+                        <a asp-action="IndexBooking" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

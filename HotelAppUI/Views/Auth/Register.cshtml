@@ -4,83 +4,102 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <h2 class="h4 mb-3">Register</h2>
+<div class="card shadow-lg">
+    <div class="card-body p-5">
+        <div class="text-center mb-4">
+            <h2 class="h3 mb-2">Create Account</h2>
+            <p class="text-muted">Sign up to get started with Stayvora</p>
+        </div>
         
         @if (TempData["ErrorMessage"] != null)
         {
             <div class="alert alert-danger" role="alert">
-                @TempData["ErrorMessage"]
+                <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
             </div>
         }
         
         @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success" role="alert">
-                @TempData["SuccessMessage"]
+                <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
             </div>
         }
         
         <form asp-action="Register" method="post">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label asp-for="FirstName" class="form-label"></label>
-                        <input asp-for="FirstName" class="form-control" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="form-label">
+                        <i class="fas fa-user me-1"></i>First Name
+                    </label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Enter first name" autocomplete="given-name" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label asp-for="LastName" class="form-label"></label>
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
+                
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-label">
+                        <i class="fas fa-user me-1"></i>Last Name
+                    </label>
+                    <input asp-for="LastName" class="form-control" placeholder="Enter last name" autocomplete="family-name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
             </div>
             
-            <div class="mb-3">
-                <label asp-for="GmailID" class="form-label"></label>
-                <input asp-for="GmailID" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="GmailID" class="form-label">
+                    <i class="fas fa-envelope me-1"></i>Email Address
+                </label>
+                <input asp-for="GmailID" type="email" class="form-control" placeholder="Enter email address" autocomplete="email" />
                 <span asp-validation-for="GmailID" class="text-danger"></span>
             </div>
             
-            <div class="mb-3">
-                <label asp-for="UserName" class="form-label"></label>
-                <input asp-for="UserName" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="UserName" class="form-label">
+                    <i class="fas fa-at me-1"></i>Username
+                </label>
+                <input asp-for="UserName" class="form-control" placeholder="Choose a username" autocomplete="username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             
-            <div class="mb-3">
-                <label asp-for="PhoneNumber" class="form-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="PhoneNumber" class="form-label">
+                    <i class="fas fa-phone me-1"></i>Phone Number
+                </label>
+                <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="(123) 456-7890" autocomplete="tel" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" type="password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Password" class="form-label">
+                        <i class="fas fa-lock me-1"></i>Password
+                    </label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Create a password" autocomplete="new-password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label asp-for="ConfirmPassword" class="form-label"></label>
-                        <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
+                
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="form-label">
+                        <i class="fas fa-lock me-1"></i>Confirm Password
+                    </label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm password" autocomplete="new-password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
             
-            <button type="submit" class="btn btn-success w-100">Register</button>
-            <div class="text-center mt-3">
-                <a asp-action="Login">Back to Login</a>
+            <button type="submit" class="btn btn-accent w-100 mb-3">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+            </button>
+            
+            <div class="text-center">
+                <p class="mb-0 text-muted">
+                    Already have an account? 
+                    <a asp-action="Login" class="fw-semibold">Sign in here</a>
+                </p>
             </div>
         </form>
     </div>
 </div>
 
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

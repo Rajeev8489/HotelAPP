@@ -1,10 +1,126 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Dashboard";
+    var total = ViewBag.TotalBookings as int? ?? 0;
+    var recent = ViewBag.RecentBookings as List<HotelAppUI.Models.BookingDTO> ?? new List<HotelAppUI.Models.BookingDTO>();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <img class="d-block img-fluid w-100" src="~/Images/HotelAppHomepage1.png" alt="Home Image" />
-    <img class="d-block img-fluid w-100" src="~/Images/HotelAppHomepage2.png" alt="Home Image" />
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="page-header">
+    <div>
+        <h1 class="page-title mb-0">Dashboard</h1>
+        <p class="page-subtitle">High-touch operations, at a glance.</p>
+    </div>
+    <div class="page-actions">
+        <a asp-controller="Booking" asp-action="Create" class="btn btn-accent">
+            <i class="fas fa-plus"></i>New booking
+        </a>
+        <a asp-controller="Booking" asp-action="IndexBooking" class="btn btn-secondary">
+            <i class="fas fa-list"></i>View bookings
+        </a>
+    </div>
 </div>
+
+<div class="kpi-grid">
+    <div class="card card-elevated kpi-card">
+        <div class="card-body">
+            <div class="kpi-top">
+                <div>
+                    <div class="kpi-label">Total bookings</div>
+                    <div class="kpi-value">@total</div>
+                </div>
+                <div class="kpi-icon" aria-hidden="true">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+            </div>
+            <div class="kpi-meta">All bookings recorded in your system.</div>
+        </div>
+    </div>
+
+    <a asp-controller="Booking" asp-action="Create" class="text-decoration-none">
+        <div class="card card-elevated kpi-card h-100">
+            <div class="card-body">
+                <div class="kpi-top">
+                    <div>
+                        <div class="kpi-label">Quick action</div>
+                        <div class="kpi-value" style="font-size: var(--font-size-2xl);">New booking</div>
+                    </div>
+                    <div class="kpi-icon" aria-hidden="true">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                <div class="kpi-meta">Create a booking in a few seconds.</div>
+            </div>
+        </div>
+    </a>
+
+    <a asp-controller="Booking" asp-action="IndexBooking" class="text-decoration-none">
+        <div class="card card-elevated kpi-card h-100">
+            <div class="card-body">
+                <div class="kpi-top">
+                    <div>
+                        <div class="kpi-label">Manage</div>
+                        <div class="kpi-value" style="font-size: var(--font-size-2xl);">Bookings</div>
+                    </div>
+                    <div class="kpi-icon" aria-hidden="true">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="kpi-meta">Search, edit, export, and maintain history.</div>
+            </div>
+        </div>
+    </a>
+</div>
+
+@if (recent.Any())
+{
+    <div class="card card-elevated">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0"><i class="fas fa-clock me-2" style="color: var(--color-accent);"></i>Recent bookings</h2>
+            <a asp-controller="Booking" asp-action="IndexBooking" class="btn btn-sm btn-secondary">View all</a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Guest</th>
+                            <th>Room</th>
+                            <th>City</th>
+                            <th>Total</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var b in recent)
+                        {
+                            <tr>
+                                <td>#@b.BookingId</td>
+                                <td>@b.CustomerName</td>
+                                <td><span class="badge badge-gold">Room @b.RoomId</span></td>
+                                <td>@b.City</td>
+                                <td class="fw-semibold" style="color: var(--color-success);">@b.TotalPrice.ToString("C")</td>
+                                <td class="text-center">
+                                    <a asp-controller="Booking" asp-action="EditBooking" asp-route-id="@b.BookingId" class="btn btn-sm btn-outline-primary btn-icon" aria-label="Edit booking @b.BookingId" title="Edit">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card card-elevated">
+        <div class="card-body text-center py-5">
+            <i class="fas fa-calendar-times fa-3x mb-3" style="color: var(--text-tertiary);"></i>
+            <p class="text-muted mb-4">No bookings yet. Create your first booking to get started.</p>
+            <a asp-controller="Booking" asp-action="Create" class="btn btn-accent">
+                <i class="fas fa-plus"></i>Create booking
+            </a>
+        </div>
+    </div>
+}

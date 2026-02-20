@@ -1,38 +1,54 @@
-﻿@model IEnumerable<HotelAppUI.Models.BookingDTO>
+@model IEnumerable<HotelAppUI.Models.BookingDTO>
 @{
-	ViewData["Title"] = "Booking List";
+    ViewData["Title"] = "Bookings";
 }
 
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="fas fa-exclamation-circle me-2"></i> @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Booking List</h1>
-    <a asp-controller="Booking" asp-action="Create" class="btn btn-success">
-        <i class="fas fa-plus me-2"></i> Create New Booking
-    </a>
+<div class="page-header">
+    <div>
+        <h1 class="page-title mb-0"><i class="fas fa-calendar-check me-2" style="color: var(--color-accent);"></i>Bookings</h1>
+        <p class="page-subtitle">Search, export, and maintain your booking history.</p>
+    </div>
+    <div class="page-actions">
+        <a asp-controller="Booking" asp-action="ExportCsv" class="btn btn-outline-secondary">
+            <i class="fas fa-file-csv me-2"></i>Export CSV
+        </a>
+        <a asp-controller="Booking" asp-action="Create" class="btn btn-accent">
+            <i class="fas fa-plus"></i>New booking
+        </a>
+    </div>
 </div>
 
-@if (Model.Any())
+<div class="mb-4">
+    <label for="bookingSearch" class="form-label visually-hidden">Search bookings</label>
+    <div class="search">
+        <i class="fas fa-search search__icon" aria-hidden="true"></i>
+        <input type="text" id="bookingSearch" class="form-control" placeholder="Search by guest, city, booking ID…" />
+    </div>
+</div>
+
+@if (Model != null && Model.Any())
 {
-    <div class="card">
+    <div class="card card-elevated">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-dark">
+                <table class="table table-hover table-striped mb-0">
+                    <thead>
                         <tr>
                             <th>Booking ID</th>
                             <th>Customer Name</th>
@@ -44,25 +60,29 @@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="bookingTableBody">
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>@item.BookingId</td>
-                                <td>@item.CustomerName</td>
-                                <td>@item.RoomId</td>
+                            <tr class="booking-row" data-customer="@item.CustomerName?.ToLowerInvariant()" data-city="@item.City?.ToLowerInvariant()">
+                                <td class="text-mono"><strong>#@item.BookingId</strong></td>
+                                <td><strong style="color: var(--text-primary);">@item.CustomerName</strong></td>
+                                <td><span class="badge badge-gold">Room @item.RoomId</span></td>
                                 <td>@item.Address</td>
-                                <td>@item.PhoneNumber.ToString("###-###-####")</td>
+                                <td>@item.PhoneNumber.ToString("(###) ###-####")</td>
                                 <td>@item.City</td>
-                                <td>@item.TotalPrice.ToString("C")</td>
+                                <td><strong style="color: var(--color-success);">@item.TotalPrice.ToString("C")</strong></td>
                                 <td class="text-center">
-                                    <div class="btn-group" role="group">
+                                    <div class="table-actions">
                                         <a asp-action="EditBooking" asp-route-id="@item.BookingId" 
-                                           class="btn btn-sm btn-outline-primary" title="Edit">
-                                            <i class="fas fa-edit"></i>
+                                           class="btn btn-sm btn-outline-primary btn-icon" 
+                                           title="Edit Booking"
+                                           aria-label="Edit booking @item.BookingId">
+                                            <i class="fas fa-pen"></i>
                                         </a>
                                         <a asp-action="DeleteBooking" asp-route-id="@item.BookingId" 
-                                           class="btn btn-sm btn-outline-danger" title="Delete">
+                                           class="btn btn-sm btn-outline-danger btn-icon" 
+                                           title="Delete Booking"
+                                           aria-label="Delete booking @item.BookingId">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
@@ -77,12 +97,33 @@
 }
 else
 {
-    <div class="text-center py-5">
-        <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
-        <h3 class="text-muted">No Bookings Found</h3>
-        <p class="text-muted">Start by creating your first booking.</p>
-        <a asp-controller="Booking" asp-action="Create" class="btn btn-success">
-            <i class="fas fa-plus me-2"></i> Create New Booking
+    <div class="empty-state">
+        <div class="empty-state-icon">
+            <i class="fas fa-calendar-times"></i>
+        </div>
+        <h3 class="empty-state-title">No Bookings Found</h3>
+        <p class="empty-state-description">Start by creating your first booking to get started.</p>
+        <a asp-controller="Booking" asp-action="Create" class="btn btn-accent">
+            <i class="fas fa-plus"></i>New booking
         </a>
     </div>
+}
+
+@section Scripts {
+<script>
+    (function () {
+        var search = document.getElementById('bookingSearch');
+        if (!search) return;
+        search.addEventListener('input', function () {
+            var term = (this.value || '').toLowerCase().trim();
+            document.querySelectorAll('.booking-row').forEach(function (row) {
+                var customer = (row.getAttribute('data-customer') || '');
+                var city = (row.getAttribute('data-city') || '');
+                var idText = (row.querySelector('td')?.textContent || '').toLowerCase();
+                var show = !term || customer.indexOf(term) !== -1 || city.indexOf(term) !== -1 || idText.indexOf(term) !== -1;
+                row.style.display = show ? '' : 'none';
+            });
+        });
+    })();
+</script>
 }

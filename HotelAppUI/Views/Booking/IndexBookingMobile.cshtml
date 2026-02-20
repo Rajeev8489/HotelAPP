@@ -1,0 +1,188 @@
+@model IEnumerable<HotelAppUI.Models.BookingDTO>
+@{
+    ViewData["Title"] = "Hotels";
+    Layout = "~/Views/Shared/_MobileLayout.cshtml";
+}
+
+<!-- Mobile Header -->
+<header class="mobile-header">
+    <div class="mobile-header-content">
+        <h1 class="mobile-header-title">
+            <i class="fas fa-hotel me-2"></i>Hotels
+        </h1>
+        <a asp-controller="Booking" asp-action="Create" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+</header>
+
+<!-- Success/Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="mobile-container mt-4">
+        <div class="alert alert-success animate-fade-in" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+        </div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="mobile-container mt-4">
+        <div class="alert alert-danger animate-fade-in" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+        </div>
+    </div>
+}
+
+<!-- Search Bar -->
+<div class="mobile-container mt-4">
+    <div class="search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Search hotels, locations..." />
+    </div>
+</div>
+
+<!-- Filter Chips -->
+<div class="mobile-container">
+    <div class="filter-chips">
+        <button class="filter-chip active">
+            <i class="fas fa-star"></i> All
+        </button>
+        <button class="filter-chip">
+            <i class="fas fa-crown"></i> Premium
+        </button>
+        <button class="filter-chip">
+            <i class="fas fa-dollar-sign"></i> Budget
+        </button>
+        <button class="filter-chip">
+            <i class="fas fa-map-marker-alt"></i> Nearby
+        </button>
+        <button class="filter-chip">
+            <i class="fas fa-fire"></i> Popular
+        </button>
+    </div>
+</div>
+
+<!-- Hotel Cards List -->
+<div class="mobile-container mt-6">
+    @if (Model != null && Model.Any())
+    {
+        <div class="hotel-list">
+            @foreach (var item in Model)
+            {
+                <div class="card mb-6 animate-slide-up">
+                    <!-- Hotel Image -->
+                    <div class="card-image-container">
+                        <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="card-badge">
+                                <i class="fas fa-crown me-1"></i>Premium
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Content -->
+                    <div class="card-body">
+                        <!-- Title & Location -->
+                        <h3 class="card-title">Room @item.RoomId - @item.City</h3>
+                        <p class="card-subtitle">
+                            <i class="fas fa-map-marker-alt me-1"></i>@item.Address, @item.City
+                        </p>
+                        
+                        <!-- Rating & Trust -->
+                        <div class="flex-between mb-4">
+                            <div class="rating">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-value">4.5</span>
+                                <span class="rating-count">(128 reviews)</span>
+                            </div>
+                            <span class="badge-verified">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </span>
+                        </div>
+                        
+                        <!-- Key Features -->
+                        <div class="flex gap-4 mb-4" style="font-size: var(--font-size-sm); color: var(--text-secondary);">
+                            <span><i class="fas fa-wifi me-1"></i>Free WiFi</span>
+                            <span><i class="fas fa-parking me-1"></i>Parking</span>
+                            <span><i class="fas fa-swimming-pool me-1"></i>Pool</span>
+                        </div>
+                        
+                        <!-- Price & CTA -->
+                        <div class="card-footer" style="padding: 0; border: none; margin-top: var(--spacing-4);">
+                            <div class="price">
+                                <div class="price-current">@item.TotalPrice.ToString("C")</div>
+                                <div class="price-period">per night</div>
+                            </div>
+                            <a asp-action="EditBooking" asp-route-id="@item.BookingId" class="btn btn-accent">
+                                <i class="fas fa-calendar-check me-2"></i>Book Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <!-- Empty State -->
+        <div class="text-center" style="padding: var(--spacing-16) var(--spacing-4);">
+            <div style="font-size: 4rem; color: var(--text-tertiary); margin-bottom: var(--spacing-4);">
+                <i class="fas fa-hotel"></i>
+            </div>
+            <h3 style="margin-bottom: var(--spacing-2);">No Hotels Found</h3>
+            <p style="color: var(--text-secondary); margin-bottom: var(--spacing-6);">
+                Start by creating your first hotel booking.
+            </p>
+            <a asp-controller="Booking" asp-action="Create" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus me-2"></i>Create Booking
+            </a>
+        </div>
+    }
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-items">
+        <a href="#" class="bottom-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </a>
+        <a asp-controller="Booking" asp-action="IndexBooking" class="bottom-nav-item">
+            <i class="fas fa-calendar-check"></i>
+            <span>Bookings</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </div>
+</nav>
+
+<style>
+.hotel-list {
+    padding-bottom: var(--spacing-16);
+}
+
+.card {
+    margin-bottom: var(--spacing-6);
+}
+
+media (min-width: 768px) {
+    .hotel-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-6);
+    }
+}
+</style>

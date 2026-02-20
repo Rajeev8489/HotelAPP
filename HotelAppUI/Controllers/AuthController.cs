@@ -38,12 +38,13 @@ namespace HotelAppUI.Controllers
                     TempData["SuccessMessage"] = "Login successful";
                     return RedirectToAction("Index", "Home");
                 }
-                TempData["ErrorMessage"] = "Invalid password";
+
+                TempData["ErrorMessage"] = response?.message ?? "Invalid username or password";
                 return View(request);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Login failed");
+                _logger.LogError(ex, "Login failed for user: {UserName}", request?.UserName);
                 TempData["ErrorMessage"] = "An error occurred during login.";
                 return View(request);
             }
@@ -70,14 +71,15 @@ namespace HotelAppUI.Controllers
                 if (response != null && response.isSuccess == true)
                 {
                     TempData["SuccessMessage"] = "Registration successful. Please login.";
-                    return RedirectToAction("Login");
+                    return RedirectToAction(nameof(Login));
                 }
+
                 TempData["ErrorMessage"] = response?.message ?? "Registration failed";
                 return View(form);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Registration failed");
+                _logger.LogError(ex, "Registration failed for user: {UserName}", form?.UserName);
                 TempData["ErrorMessage"] = "An error occurred during registration.";
                 return View(form);
             }
@@ -87,10 +89,9 @@ namespace HotelAppUI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            TempData["SuccessMessage"] = "Logged out";
-            return RedirectToAction("Login", "Auth");
+            HttpContext.Session.Clear();
+            TempData["SuccessMessage"] = "Logged out successfully";
+            return RedirectToAction(nameof(Login));
         }
     }
 }
-
-

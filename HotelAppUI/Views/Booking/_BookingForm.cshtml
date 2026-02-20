@@ -1,39 +1,71 @@
-@model HotelAppUI.Models.BookingDTO
+﻿@model HotelAppUI.Models.BookingDTO
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-<div class="form-group mb-3">
-    <label asp-for="RoomId" class="form-label"></label>
-    <input asp-for="RoomId" class="form-control" />
-    <span asp-validation-for="RoomId" class="text-danger"></span>
+<div class="form-row">
+    <div class="form-group">
+        <label asp-for="RoomId" class="form-label">
+            Room <span class="text-danger">*</span>
+        </label>
+        @if (ViewBag.Rooms != null && (ViewBag.Rooms as IEnumerable<HotelAppUI.Models.RoomDTO>)?.Any() == true)
+        {
+            var roomList = ((IEnumerable<HotelAppUI.Models.RoomDTO>?)ViewBag.Rooms ?? Enumerable.Empty<HotelAppUI.Models.RoomDTO>())
+                .Select(r => new SelectListItem($"{r.Name} - {r.Type}", r.RoomId.ToString()));
+            <select asp-for="RoomId" class="form-control" asp-items="roomList">
+                <option value="">-- Select Room --</option>
+            </select>
+        }
+        else
+        {
+            <input asp-for="RoomId" class="form-control" placeholder="Enter room number" />
+        }
+        <span asp-validation-for="RoomId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CustomerName" class="form-label">
+            Customer Name <span class="text-danger">*</span>
+        </label>
+        <input asp-for="CustomerName" class="form-control" placeholder="Enter customer name" />
+        <span asp-validation-for="CustomerName" class="text-danger"></span>
+    </div>
 </div>
 
-<div class="form-group mb-3">
-    <label asp-for="CustomerName" class="form-label"></label>
-    <input asp-for="CustomerName" class="form-control" />
-    <span asp-validation-for="CustomerName" class="text-danger"></span>
+<div class="form-row">
+    <div class="form-group">
+        <label asp-for="Address" class="form-label">
+            Address <span class="text-danger">*</span>
+        </label>
+        <input asp-for="Address" class="form-control" placeholder="Enter address" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="City" class="form-label">
+            City <span class="text-danger">*</span>
+        </label>
+        <input asp-for="City" class="form-control" placeholder="Enter city" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
 </div>
 
-<div class="form-group mb-3">
-    <label asp-for="Address" class="form-label"></label>
-    <input asp-for="Address" class="form-control" />
-    <span asp-validation-for="Address" class="text-danger"></span>
-</div>
+<div class="form-row">
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="form-label">
+            Phone Number <span class="text-danger">*</span>
+        </label>
+        <input asp-for="PhoneNumber" class="form-control" type="tel" placeholder="(123) 456-7890" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
 
-<div class="form-group mb-3">
-    <label asp-for="City" class="form-label"></label>
-    <input asp-for="City" class="form-control" />
-    <span asp-validation-for="City" class="text-danger"></span>
-</div>
-
-<div class="form-group mb-3">
-    <label asp-for="PhoneNumber" class="form-label"></label>
-    <input asp-for="PhoneNumber" class="form-control" type="tel" />
-    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-</div>
-
-<div class="form-group mb-3">
-    <label asp-for="TotalPrice" class="form-label"></label>
-    <input asp-for="TotalPrice" class="form-control" type="number" step="0.01" min="0" />
-    <span asp-validation-for="TotalPrice" class="text-danger"></span>
+    <div class="form-group">
+        <label asp-for="TotalPrice" class="form-label">
+            Total Price <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text">₹</span>
+            <input asp-for="TotalPrice" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" />
+        </div>
+        <span asp-validation-for="TotalPrice" class="text-danger"></span>
+    </div>
 </div>

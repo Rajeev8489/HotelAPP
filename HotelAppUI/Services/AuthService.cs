@@ -2,20 +2,22 @@ using HotelApp_Utility;
 using HotelAppUI.Model;
 using HotelAppUI.Models;
 using HotelAppUI.Services.IServices;
-using Microsoft.AspNetCore.Http;
 
 namespace HotelAppUI.Services
 {
     public class AuthService : BaseService, IAuthService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private const string AuthApiPath = "/api/Auth";
         private readonly string _apiBaseUrl;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<BaseService> logger, IHttpContextAccessor httpContextAccessor)
+        public AuthService(
+            IHttpClientFactory httpClientFactory,
+            IConfiguration configuration,
+            ILogger<BaseService> logger,
+            IHttpContextAccessor httpContextAccessor)
             : base(httpClientFactory, logger, httpContextAccessor)
         {
-            _httpClientFactory = httpClientFactory;
             _apiBaseUrl = configuration.GetValue<string>("ServiceUrl:HotelApi");
             _httpContextAccessor = httpContextAccessor;
         }
@@ -26,7 +28,7 @@ namespace HotelAppUI.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = form,
-                Url = _apiBaseUrl + "/api/Auth/register"
+                Url = BuildAuthUrl("register")
             });
         }
 
@@ -36,7 +38,7 @@ namespace HotelAppUI.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = request,
-                Url = _apiBaseUrl + "/api/Auth/login"
+                Url = BuildAuthUrl("login")
             });
 
             try
@@ -46,9 +48,17 @@ namespace HotelAppUI.Services
                     _httpContextAccessor.HttpContext?.Session?.SetString("jwtToken", (string)result.token);
                 }
             }
-            catch { }
+            catch
+            {
+                // Token storage failed, but we still return the result
+            }
 
             return (T)result;
+        }
+
+        private string BuildAuthUrl(string endpoint)
+        {
+            return $"{_apiBaseUrl}{AuthApiPath}/{endpoint}";
         }
     }
 }

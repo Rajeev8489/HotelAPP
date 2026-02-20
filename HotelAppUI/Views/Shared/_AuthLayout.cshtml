@@ -1,20 +1,28 @@
 @{
     Layout = null;
-    var title = ViewData["Title"] as string ?? "HotelAppUI";
+    var title = ViewData["Title"] as string ?? "Stayvora";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@title - HotelAppUI</title>
+    <title>@title - Stayvora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-<body>
-    <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh;">
-        <h1 class="mb-4">HotelAppUI</h1>
-        <main role="main" class="w-100" style="max-width: 480px;">
+<body style="background: radial-gradient(1200px 600px at 10% 10%, rgba(200,162,74,.18), rgba(11,18,32,0) 60%), linear-gradient(180deg, #0b1220 0%, #070b12 100%); min-height: 100vh;">
+    <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh; padding: var(--spacing-6);">
+        <div class="text-center mb-5">
+            <i class="fas fa-hotel fa-3x mb-3" style="color: var(--color-accent);"></i>
+            <h1 class="mb-2" style="color: #ffffff; font-weight: 700; font-family: var(--font-family-heading);">Stayvora</h1>
+            <p class="mb-0" style="color: rgba(231,234,240,.78);">Premium hotel booking management</p>
+        </div>
+        <main role="main" class="w-100" style="max-width: 420px;">
             @RenderBody()
         </main>
     </div>
