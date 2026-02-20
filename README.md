@@ -109,7 +109,7 @@ Visual Studio / VS Code
 
 Clone repository
 
-git clone https://github.com/Rajeev8489/Stayvora.git
+git clone https://github.com/Rajeev8489/HotelAPP.git
 
 Update connection string in appsettings.json
 
